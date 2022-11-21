@@ -9,7 +9,7 @@ let computerPoint = 0
 const header = document.createElement('header')
 const h1User = document.createElement('h1')
 const resultDisplay = document.createElement('h1')
-resultDisplay.innerText = userPoint +' - ' + computerPoint
+resultDisplay.innerText = userPoint + ' - ' + computerPoint
 const h1Computer = document.createElement('h1')
 h1Computer.innerText = 'Dator'
 
@@ -36,16 +36,17 @@ const verdictDisplay = document.createElement('h3')
 const computerChoiceDisplay = document.createElement('img')
 
 
-const rockImg= "sten.png"
-const scissorImg= "sax2.jpg"
-const paperImg= "pase.png"
+const rockImg = "sten.png"
+const scissorImg = "sax2.jpg"
+const paperImg = "pase.png"
 
 let userChoice
 let result
 
 beginBtn.addEventListener('click', beginGame)
 
-function beginGame(event){
+function beginGame(event) {
+    event.preventDefault()
     nameInput.remove()
     beginBtn.remove()
     indexH1.remove()
@@ -71,22 +72,23 @@ function beginGame(event){
 rockBtn.addEventListener('click', assignChoice)
 paperBtn.addEventListener('click', assignChoice)
 scissorBtn.addEventListener('click', assignChoice)
-goBtn.addEventListener('click',goFunction)
+goBtn.addEventListener('click', goFunction)
 
 
 
-function assignChoice(event){
+function assignChoice(event) {
+    event.preventDefault()
     userChoiceDisplay.remove()
     computerChoiceDisplay.remove()
     verdictDisplay.remove()
-    event.preventDefault()
-    if(event.target.textContent === 'Sten'){
+    
+    if (event.target.textContent === 'Sten') {
         userChoice = rockImg
     }
-    if(event.target.textContent === 'Sax'){
+    if (event.target.textContent === 'Sax') {
         userChoice = scissorImg
     }
-    if(event.target.textContent === 'Påse'){
+    if (event.target.textContent === 'Påse') {
         userChoice = paperImg
     }
 
@@ -96,76 +98,65 @@ function assignChoice(event){
 
 }
 
-function goFunction(event){
+function goFunction(event) {
     event.preventDefault()
     randomComputerChoice()
     getResult()
     choiceDiv.appendChild(verdictDisplay)
     choiceDiv.appendChild(computerChoiceDisplay)
+    setTimeout(winnerAnnouncer, 200)
 
 }
 
+function winnerAnnouncer() {
+    if (userPoint === 3) {
+        alert("DU VANN! " + userPoint + ' - ' + computerPoint)
+        window.location.reload();
+    }
 
-function randomComputerChoice(){
-    const randomNumber = Math.floor(Math.random()*3+1)
+    if (computerPoint === 3) {
+        alert("Du förlorade.. " + userPoint + ' - ' + computerPoint)
+        window.location.reload();
+    }
+}
 
-    if(randomNumber === 1){
+function randomComputerChoice() {
+    const randomNumber = Math.floor(Math.random() * 3 + 1)
+
+    if (randomNumber === 1) {
         computerChoice = rockImg
     }
-    if(randomNumber === 2){
+    if (randomNumber === 2) {
         computerChoice = scissorImg
     }
-    if(randomNumber === 3){
+    if (randomNumber === 3) {
         computerChoice = paperImg
     }
     computerChoiceDisplay.src = computerChoice
-    
-} 
+
+}
 
 function getResult() {
     if (computerChoice === userChoice) {
-        verdictDisplay.innerHTML= "Ni drog samma"
+        verdictDisplay.innerHTML = "Ni drog samma"
 
     }
-    if (computerChoice === rockImg && userChoice === paperImg) {
+    if ((computerChoice === rockImg && userChoice === paperImg) ||
+        (computerChoice === paperImg && userChoice === scissorImg) ||
+        (computerChoice === scissorImg && userChoice === rockImg)) {
         userPoint++
-        verdictDisplay.innerHTML= "Din poäng!"
+        verdictDisplay.innerHTML = "Din poäng!"
     }
-    if (computerChoice === rockImg && userChoice === scissorImg) {
-        computerPoint++ 
-        verdictDisplay.innerHTML= "Datorns poäng.."
-    }
-    if (computerChoice === paperImg && userChoice === scissorImg) {    
-        userPoint++
-        verdictDisplay.innerHTML= "Din poäng!"
 
-    }
-    if (computerChoice === paperImg && userChoice === rockImg) {
+    if ((computerChoice === rockImg && userChoice === scissorImg) ||
+        (computerChoice === scissorImg && userChoice === paperImg) ||
+        (computerChoice === scissorImg && userChoice === paperImg)) {
         computerPoint++
-        verdictDisplay.innerHTML= "Datorns poäng.."
-
+        verdictDisplay.innerHTML = "Datorns poäng.."
     }
-    if (computerChoice === scissorImg && userChoice === rockImg) {
-        userPoint++
-        verdictDisplay.innerHTML= "Din poäng!"
+    resultDisplay.innerText = userPoint + ' - ' + computerPoint
 
-    }
-    if (computerChoice === scissorImg && userChoice === paperImg) {
-        computerPoint++
-        verdictDisplay.innerHTML= "Datorns poäng.."
 
-    }
-    resultDisplay.innerText = userPoint +' - ' + computerPoint
-
-    if (userPoint === 3){
-        alert("DU VANN! " + userPoint +' - ' + computerPoint)
-        window.location.reload();
-    }
-
-    if (computerPoint === 3){
-        alert("Du förlorade! " + userPoint +' - ' + computerPoint)
-        window.location.reload();
-    }
 }
 
 

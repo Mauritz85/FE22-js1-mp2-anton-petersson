@@ -6,8 +6,6 @@ body{
     text-align: center
 }
 
-
-
 header{
     display: flex;
     justify-content: space-around;
@@ -31,7 +29,6 @@ header{
     align-content: center;
 
 }
-
 
 img{
     margin: 10px;
